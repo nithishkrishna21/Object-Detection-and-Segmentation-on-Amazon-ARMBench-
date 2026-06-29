@@ -10,15 +10,15 @@
   <img src="https://img.shields.io/badge/Domain-Robotic%20Warehouse-purple">
 </p>
 
-**Authors:** Nithish Krishna Shreenevasan · Rahul Arutla · Swastid Kasture
-**Affiliation:** Johns Hopkins University — Whiting School of Engineering (Computer Vision, 2025)
+**Authors:** Nithish Krishna Shreenevasan · Rahul Arutla · Swastid Kasture<br>
+**Affiliation:** Johns Hopkins University, Whiting School of Engineering (EN.601.661 Computer Vision, 2025)
 
 ---
 
 ## 📋 Overview
 
-Robotic pick-and-place systems must localize and segment many densely packed — and often
-**identical** — objects inside warehouse totes. Unlike standard pipelines that treat detection and
+Robotic pick-and-place systems must localize and segment many densely packed, and often
+**identical**, objects inside warehouse totes. Unlike standard pipelines that treat detection and
 segmentation as separate jobs, this project benchmarks architectures capable of both, **under a
 common data pipeline and a shared set of metrics**.
 
@@ -44,9 +44,8 @@ training on a large multi-gigabyte dataset.
 
 ## 🗂️ Dataset
 
-Data comes from the [**Amazon ARMBench**](http://armbench.s3-website-us-east-1.amazonaws.com/)
-Object Segmentation track — high-resolution tote images annotated in **LabelMe** and **MS-COCO**
-formats, with train / validation / test splits. Subsets:
+Data comes from the **Amazon ARMBench** Object Segmentation track, high-resolution tote images
+annotated in **LabelMe** and **MS-COCO** formats, with train / validation / test splits. Subsets:
 
 | Subset | Size | Images | Annotations | Avg. instances / image |
 |--------|:----:|:------:|:-----------:|:----------------------:|
@@ -54,11 +53,11 @@ formats, with train / validation / test splits. Subsets:
 | Zoomed-Out-Tote-Transfer | 1.5 GB | 5,837 | 43,401 | 7.5 |
 | Same-Object-Transfer | 3 GB | 3,323 | 12,664 | 3.8 |
 
-Due to compute limits, models were trained on a **public subset** — primarily the
+Due to compute limits, models were trained on a **public subset**, primarily the
 *Same-Object-Transfer* set, with an additional DeepLabV3+ run on *Mix-Object-Tote*.
 
 > ⚠️ The ARMBench dataset is **not included** in this repository (large, hosted externally).
-> Download it from the link above and update the data paths near the top of each notebook.
+> Obtain it separately and update the data paths near the top of each notebook.
 
 ---
 
@@ -68,21 +67,21 @@ Four architectures are benchmarked, spanning two-stage and one-stage detection, 
 segmentation, and semantic segmentation. All are built on **PyTorch / TorchVision** (and
 **Ultralytics** for YOLOv8), trained with the **Adam** optimizer.
 
-### 1. Mask R-CNN — instance segmentation
+### 1. Mask R-CNN, instance segmentation
 Extends Faster R-CNN with a parallel **mask branch** alongside the classification and
 bounding-box heads, producing boxes *and* high-quality pixel masks end-to-end. Evaluated with
-**three backbones — ResNet-18 / 50 / 101** — to study the accuracy / capacity trade-off.
+**three backbones, ResNet-18 / 50 / 101**, to study the accuracy / capacity trade-off.
 
-### 2. DeepLabV3+ — semantic segmentation
+### 2. DeepLabV3+, semantic segmentation
 A ResNet-101 encoder with **atrous spatial pyramid pooling** and a decoder module to capture
 multi-scale context and refine object boundaries, producing precise pixel-level masks.
 
-### 3. RetinaNet — one-stage detection
+### 3. RetinaNet, one-stage detection
 A dense one-stage detector that uses **Focal Loss** to handle foreground/background imbalance,
 achieving two-stage-level accuracy at higher speed. Paired with DeepLabV3+ in the detection +
 segmentation pipeline.
 
-### 4. YOLOv8 — real-time detection
+### 4. YOLOv8, real-time detection
 A lightweight, deployment-optimized single-stage detector. Fast inference makes it well suited to
 latency-sensitive robotics applications.
 
@@ -93,7 +92,7 @@ latency-sensitive robotics applications.
 All metrics below are on the **Same-Object-Transfer** track (the DeepLabV3+ mix-object run is
 reported in its own notebook).
 
-### Mask R-CNN — segmentation mask AP (COCO)
+### Mask R-CNN, segmentation mask AP (COCO)
 
 | Backbone | mask AP @[.50:.95] | mask AP@.50 | mask AP@.75 | box AP @[.50:.95] |
 |----------|:------------------:|:-----------:|:-----------:|:-----------------:|
@@ -101,7 +100,7 @@ reported in its own notebook).
 | ResNet-101 | 0.705 | 0.869 | 0.811 | 0.643 |
 | ResNet-18 | 0.654 | 0.865 | 0.764 | 0.594 |
 
-### DeepLabV3+ — mean IoU · RetinaNet — box AP · YOLOv8 — detection
+### DeepLabV3+, mean IoU · RetinaNet, box AP · YOLOv8, detection
 
 | DeepLabV3+ (mIoU) | | RetinaNet (box AP) | | YOLOv8 (test) | |
 |---|:---:|---|:---:|---|:---:|
@@ -152,15 +151,13 @@ reported in its own notebook).
   <img src="assets/yolov8/outputs/148JOIGQVX.jpg" width="70%">
 </p>
 
-*(100 YOLOv8 prediction images are available under [`assets/yolov8/outputs/`](assets/yolov8/outputs/).)*
-
 ### Key findings
 
-- **Best instance segmentation:** Mask R-CNN with a **ResNet-50** backbone (mask AP 0.854) —
+- **Best instance segmentation:** Mask R-CNN with a **ResNet-50** backbone (mask AP 0.854),
   the best balance of accuracy and generalization; deeper ResNet-101 did not help on the subset.
-- **Best semantic segmentation:** DeepLabV3+ — ~96% mIoU, ideal when speed matters more than
+- **Best semantic segmentation:** DeepLabV3+, ~96% mIoU, ideal when speed matters more than
   per-instance separation.
-- **Best lightweight detection:** YOLOv8 — competitive precision in crowded scenes with fast
+- **Best lightweight detection:** YOLOv8, competitive precision in crowded scenes with fast
   inference, well suited to real-time robotics.
 - **Recommended deployment:** Mask R-CNN (ResNet-50) for high-accuracy instance segmentation, or
   DeepLabV3+ (segmentation) paired with YOLOv8 (detection) for low-latency pipelines.
@@ -172,22 +169,22 @@ reported in its own notebook).
 ```
 .
 ├── models/                     # All model code (notebooks + helper scripts)
-│   ├── mask-rcnn/              # Mask R-CNN — instance segmentation (Nithish)
+│   ├── mask-rcnn/              # Mask R-CNN, instance segmentation (Nithish)
 │   │   ├── train_mask_rcnn.py · test_mask_rcnn.py
 │   │   ├── engine.py · coco_eval.py · coco_utils.py · utils.py
 │   │   ├── resnet18/  mask_rcnn_resnet18.ipynb
 │   │   ├── resnet50/  mask_rcnn_resnet50.ipynb   #  ⭐ best model
 │   │   └── resnet101/ mask_rcnn_resnet101.ipynb
-│   ├── deeplabv3/             # DeepLabV3+ — semantic segmentation (Rahul)
+│   ├── deeplabv3/             # DeepLabV3+, semantic segmentation (Rahul)
 │   │   ├── 1_labelme_to_coco.ipynb
 │   │   ├── 2_dataset_class.ipynb
 │   │   ├── train_deeplabv3_same_object.ipynb
 │   │   ├── evaluate_deeplabv3_same_object.ipynb
 │   │   └── train_and_evaluate_deeplabv3_mix_object.ipynb
-│   ├── retinanet/             # RetinaNet — one-stage detection (Rahul)
+│   ├── retinanet/             # RetinaNet, one-stage detection (Rahul)
 │   │   ├── 1_labelme_to_coco_detection.ipynb
 │   │   └── train_and_evaluate_retinanet.ipynb
-│   └── yolov8/                # YOLOv8 — real-time detection (Swastid)
+│   └── yolov8/                # YOLOv8, real-time detection (Swastid)
 │       ├── labelme_to_yolo.ipynb
 │       └── train_and_evaluate_yolov8.ipynb
 │
@@ -219,7 +216,7 @@ pip install torch torchvision ultralytics pycocotools \
 
 ### Running
 
-Each model folder is self-contained and follows the same flow —
+Each model folder is self-contained and follows the same flow,
 **convert annotations → (build dataset) → train → evaluate / visualize**:
 
 1. Obtain the **ARMBench** data and place the relevant subset locally.
@@ -271,6 +268,6 @@ model.eval()
 
 ## 🙏 Acknowledgements
 
-Developed as a Computer Vision course project at **Johns Hopkins University, Whiting School of
-Engineering**. Thanks to my teammates **Rahul Arutla** and **Swastid Kasture** for their
+Developed as an **EN.601.661 Computer Vision** course project at **Johns Hopkins University,
+Whiting School of Engineering**. Thanks to my teammates **Rahul Arutla** and **Swastid Kasture** for their
 collaboration. Dataset courtesy of **Amazon ARMBench**.
