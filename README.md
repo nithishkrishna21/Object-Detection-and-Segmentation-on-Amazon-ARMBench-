@@ -1,8 +1,3 @@
-<!-- Banner — add a wide showcase image at assets/banner.png and it will render here -->
-<p align="center">
-  <img src="assets/banner.png" alt="Object Detection and Segmentation on Amazon ARMBench" width="80%">
-</p>
-
 # Object Detection and Segmentation on Amazon ARMBench
 
 > A comparative study of modern deep-learning architectures for object detection and
