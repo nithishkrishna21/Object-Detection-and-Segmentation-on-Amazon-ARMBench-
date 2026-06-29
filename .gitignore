@@ -1,2 +1,32 @@
+# Model weights (large, tracked locally only)
 *.pt
+*.pth
 
+# Archives (yolo_images.zip is redundant with models/yolov8/predictions/)
+*.zip
+
+# Documents — keep only the final report; everything else stays local
+*.docx
+*.pptx
+*.pdf
+!docs/Object-Detection-and-Segmentation-on-Amazon-ARMBench_Final-Report.pdf
+
+# Earlier / exploratory notebooks (kept locally, not published)
+archive/
+
+# Output images not shown in the README (kept locally, not published)
+assets/retinanet/outputs/retinanet_output4.png
+assets/retinanet/outputs/retinanet_output5.png
+assets/yolov8/outputs/*
+!assets/yolov8/outputs/06T68P5CQT.jpg
+!assets/yolov8/outputs/0N1TL3AFID.jpg
+!assets/yolov8/outputs/148JOIGQVX.jpg
+
+# Python / Jupyter
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
